@@ -1,0 +1,39 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+#myTable{
+    width: 100%;
+    table-layout: fixed;
+}
+
+#myTable th{
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+#myTable td {
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+#myTable th, #myTable td{
+    white-space: normal !important;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    vertical-align: top;
+    padding: 0.5rem .75rem;
+}
+
+.wrap {
+    white-space: normal !important;
+}
+
+@media (max-width:768px){
+    #myTable th,
+    #myTable td {
+        font-size: 0.8rem;
+    }
+}
