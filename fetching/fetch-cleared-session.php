@@ -10,7 +10,7 @@ $totalDataQuery = mysqli_query($koneksi, "SELECT COUNT(*) AS total FROM sesi JOI
 $totalData = mysqli_fetch_assoc($totalDataQuery)['total'];
 
 // Query dasar
-$query = "SELECT sesi.*, data_akun.nama_lengkap AS nama_psikolog FROM sesi JOIN data_akun ON sesi.psikolog = data_akun.id_akun";
+$query = "SELECT sesi.*, data_akun.nama_lengkap AS nama_psikolog FROM sesi JOIN data_akun ON sesi.psikolog = data_akun.id_akun WHERE status_sesi='Sudah Selesai'";
 
 // Jika ada pencarian
 if (!empty($search)) {

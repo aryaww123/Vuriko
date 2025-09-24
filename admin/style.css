@@ -4,12 +4,13 @@ body {
     font-family: Arial, sans-serif;
 }
 
-#myTable{
+#myTable {
+    font-size: 13px;
     width: 100%;
     table-layout: fixed;
 }
 
-#myTable th{
+#myTable th {
     font-size: 0.85rem;
     font-weight: 600;
 }
@@ -19,21 +20,33 @@ body {
     line-height: 1.4;
 }
 
-#myTable th, #myTable td{
-    white-space: normal !important;
-    overflow-wrap: anywhere;
-    word-break: break-word;
-    vertical-align: top;
-    padding: 0.5rem .75rem;
-}
-
 .wrap {
     white-space: normal !important;
 }
 
-@media (max-width:768px){
+@media (max-width:768px) {
+
     #myTable th,
     #myTable td {
         font-size: 0.8rem;
     }
+}
+
+/* samakan padding header & body */
+.dataTables_scrollHead th,
+.dataTables_scrollBody td {
+    padding: 8px 10px;
+    border: 1px solid #dee2e6;
+    vertical-align: middle;
+}
+
+/* hilangkan double border atas */
+.dataTables_scrollHead table {
+    margin-bottom: 0 !important;
+    border-bottom: none !important;
+}
+
+/* hilangkan double border bawah */
+.dataTables_scrollBody table {
+    border-top: none !important;
 }

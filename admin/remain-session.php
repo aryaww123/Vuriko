@@ -165,7 +165,7 @@ if (!isset($_SESSION["user"]) || $_SESSION["user"]["role"] != "admin") {
                             $('#myTable').DataTable({
                                 "processing": true,
                                 "serverSide": true,
-                                "ajax": "../fetching/fetch-session.php",
+                                "ajax": "../fetching/fetch-remain-session.php",
                                 "pageLength": 10,
                                 "lengthMenu": [5, 10, 25, 50, 100],
                                 "searching": true,
