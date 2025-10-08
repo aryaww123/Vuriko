@@ -63,7 +63,7 @@ include "connection/konek.php";
         $data = mysqli_fetch_assoc($query);
 
         $_SESSION["user"] = [
-          'id'      => $data['id'],
+          'id'      => $data['id_akun'],
           'username'=> $data['username'],
           'nama'    => $data['nama_lengkap'],
           'role'    => $data['role']
