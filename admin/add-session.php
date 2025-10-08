@@ -183,8 +183,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               <div class="col">
                 <label class="form-label">Status Sesi</label>
                 <select name="status_sesi[]" class="form-select">
-                  <option value="Belum Lunas">Belum</option>
-                  <option value="Lunas">Sudah Selesai</option>
+                  <option value="Belum">Belum</option>
+                  <option value="Sudah Selesai">Sudah Selesai</option>
                 </select>
               </div>
             </div>
