@@ -98,6 +98,21 @@ if (!isset($_SESSION["user"]) || $_SESSION["user"]["role"] != "admin") {
             overflow: hidden;
             text-overflow: ellipsis;
         }
+
+        #myTable td .btn {
+            font-size: 0.5rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #myTable td .btn i {
+            font-size: 0.7rem;
+        }
+
+        #myTable td .d-flex {
+            flex-wrap: nowrap;
+        }
     </style>
 
 </head>
@@ -123,7 +138,6 @@ if (!isset($_SESSION["user"]) || $_SESSION["user"]["role"] != "admin") {
                                     <th>Tanggal sesi dibuat</th>
                                     <th>Jam sesi dibuat</th>
                                     <th>Nama Klien</th>
-                                    <th>Keluhan</th>
                                     <th>Psikolog</th>
                                     <th>Tanggal Sesi</th>
                                     <th>Jam Sesi</th>
@@ -169,7 +183,7 @@ if (!isset($_SESSION["user"]) || $_SESSION["user"]["role"] != "admin") {
                                 "pageLength": 10,
                                 "lengthMenu": [5, 10, 25, 50, 100],
                                 "searching": true,
-                                "ordering": false,
+                                "ordering": true,
                                 "autoWidth": false,
                                 "columnDefs": [
                                     { width: '50px', targets: 0 },
@@ -177,23 +191,12 @@ if (!isset($_SESSION["user"]) || $_SESSION["user"]["role"] != "admin") {
                                     { width: '90px', targets: 2 },
                                     { width: '130px', targets: 3, className: 'wrap' },
                                     // { width: '320px', targets: 4, className: 'wrap' },
-                                    {
-                                        width: '200px',
-                                        targets: 4,
-                                        className: 'ellipsis',
-                                        render: function (data, type, row) {
-                                            if (type === 'display') {
-                                                return '<span title = "' + data + '">' + data + '</span>';
-                                            }
-                                            return data;
-                                        }
-                                    },
+                                    { width: '90px', targets: 4 },
                                     { width: '120px', targets: 5 },
                                     { width: '70px', targets: 6 },
                                     { width: '50px', targets: 7 },
                                     { width: '50px', targets: 8 },
-                                    { width: '70px', targets: 9 },
-                                    { width: '120px', targets: 10 },
+                                    { width: '70px', targets: 9 }
 
                                 ],
                                 responsive: true

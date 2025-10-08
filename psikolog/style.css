@@ -1,0 +1,88 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+#myTable {
+    font-size: 13px;
+    width: 100%;
+    table-layout: fixed;
+}
+
+#myTable th {
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+#myTable td {
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.wrap {
+    white-space: normal !important;
+}
+
+@media (max-width:768px) {
+
+    #myTable th,
+    #myTable td {
+        font-size: 0.8rem;
+    }
+}
+
+/* samakan padding header & body */
+.dataTables_scrollHead th,
+.dataTables_scrollBody td {
+    padding: 8px 10px;
+    border: 1px solid #dee2e6;
+    vertical-align: middle;
+}
+
+/* hilangkan double border atas */
+.dataTables_scrollHead table {
+    margin-bottom: 0 !important;
+    border-bottom: none !important;
+}
+
+/* hilangkan double border bawah */
+.dataTables_scrollBody table {
+    border-top: none !important;
+}
+
+#myTable th,
+#myTable td {
+    font-size: 0.7rem !important;
+}
+
+#myTable td.ellipsis>span {
+    display: block !important;
+    width: 100% !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+}
+
+td.ellipsis>span {
+    display: block;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#myTable td .btn {
+    font-size: 0.5rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#myTable td .btn i {
+    font-size: 0.7rem;
+}
+
+#myTable td .d-flex {
+    flex-wrap: nowrap;
+}

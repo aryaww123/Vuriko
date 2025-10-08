@@ -13,6 +13,8 @@
         <!-- DataTables Bootstrap 5 CSS -->
         <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
         <link rel="stylesheet" href="style.css">
+        <style>
+        </style>
     </head>
 
     <body>

@@ -16,14 +16,12 @@ if (!isset($_SESSION["user"]) || $_SESSION["user"]["role"] != "admin") {
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-
+    <link rel="stylesheet" href="style.css">
     <!-- Bootstrap CSS v5.3.3 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
     <!-- DataTables Bootstrap 5 CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
-    <link rel="stylesheet" href="style.css">
-
     <style>
         body {
             margin: 0;
@@ -98,6 +96,21 @@ if (!isset($_SESSION["user"]) || $_SESSION["user"]["role"] != "admin") {
             overflow: hidden;
             text-overflow: ellipsis;
         }
+
+        #myTable td .btn {
+            font-size: 0.5rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #myTable td .btn i {
+            font-size: 0.7rem;
+        }
+
+        #myTable td .d-flex {
+            flex-wrap: nowrap;
+        }
     </style>
 
 </head>
@@ -123,7 +136,6 @@ if (!isset($_SESSION["user"]) || $_SESSION["user"]["role"] != "admin") {
                                     <th>Tanggal sesi dibuat</th>
                                     <th>Jam sesi dibuat</th>
                                     <th>Nama Klien</th>
-                                    <th>Keluhan</th>
                                     <th>Psikolog</th>
                                     <th>Tanggal Sesi</th>
                                     <th>Jam Sesi</th>
@@ -148,90 +160,85 @@ if (!isset($_SESSION["user"]) || $_SESSION["user"]["role"] != "admin") {
                                     <p><strong>Psikolog:</strong> <span id="detailPsikolog"></span></p>
                                     <p><strong>Tanggal Sesi:</strong> <span id="detailTanggal"></span></p>
                                     <p><strong>Jam Sesi:</strong> <span id="detailJam"></span></p>
+                                    <p><strong>Status Sesi:</strong> <span id="detailSesi"></span></p>
+                                    <p><strong>Status Pembayaran:</strong> <span id="detailPembayaran"></span></p>
+
                                 </div>
                             </div>
                         </div>
                     </div>
-
-
-                    <!-- jQuery & DataTables -->
-                    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-                    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-                    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-                    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-                    <script>
-                        $(document).ready(function () {
-                            $('#myTable').DataTable({
-                                "processing": true,
-                                "serverSide": true,
-                                "ajax": "../fetching/fetch-session.php",
-                                "pageLength": 10,
-                                "lengthMenu": [5, 10, 25, 50, 100],
-                                "searching": true,
-                                "ordering": false,
-                                "autoWidth": false,
-                                "columnDefs": [
-                                    { width: '50px', targets: 0 },
-                                    { width: '90px', targets: 1 },
-                                    { width: '90px', targets: 2 },
-                                    { width: '130px', targets: 3, className: 'wrap' },
-                                    // { width: '320px', targets: 4, className: 'wrap' },
-                                    {
-                                        width: '200px',
-                                        targets: 4,
-                                        className: 'ellipsis',
-                                        render: function (data, type, row) {
-                                            if (type === 'display') {
-                                                return '<span title = "' + data + '">' + data + '</span>';
-                                            }
-                                            return data;
-                                        }
-                                    },
-                                    { width: '120px', targets: 5 },
-                                    { width: '70px', targets: 6 },
-                                    { width: '50px', targets: 7 },
-                                    { width: '50px', targets: 8 },
-                                    { width: '70px', targets: 9 },
-                                    { width: '120px', targets: 10 },
-
-                                ],
-                                responsive: true
-                            });
-                        });
-                        // Detail Button
-                        $(document).on("click", ".detail-btn", function () {
-                            $("#detailNama").text($(this).data("nama"));
-                            $("#detailKeluhan").text($(this).data("keluhan"));
-                            $("#detailPsikolog").text($(this).data("psikolog"));
-                            $("#detailTanggal").text($(this).data("tanggal"));
-                            $("#detailJam").text($(this).data("jam"));
-                            $("#detailModal").modal("show");
-                        });
-
-                        // Delete Button
-                        $(document).on("click", ".delete-btn", function () {
-                            var id = $(this).data("id");
-
-                            Swal.fire({
-                                title: "Apakah kamu yakin?",
-                                text: "Data ini akan dihapus permanen!",
-                                icon: "warning",
-                                showCancelButton: true,
-                                confirmButtonColor: "#d33",
-                                cancelButtonColor: "#3085d6",
-                                confirmButtonText: "Ya, hapus!"
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    window.location.href = "delete-session.php?id=" + id;
-                                }
-                            });
-                        });
-                    </script>
-
-
                 </div>
+
+
+
+                <!-- jQuery & DataTables -->
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+                <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+                <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+                <script>
+                    $(document).ready(function () {
+                        $('#myTable').DataTable({
+                            "processing": true,
+                            "serverSide": true,
+                            "ajax": "../fetching/fetch-session.php",
+                            "pageLength": 10,
+                            "lengthMenu": [5, 10, 25, 50, 100],
+                            "searching": true,
+                            "ordering": true,
+                            "autoWidth": false,
+                            "columnDefs": [
+                                { width: '50px', targets: 0 },
+                                { width: '90px', targets: 1 },
+                                { width: '90px', targets: 2 },
+                                { width: '130px', targets: 3, className: 'wrap' },
+                                { width: '90px', targets: 4 },
+                                { width: '120px', targets: 5 },
+                                { width: '70px', targets: 6 },
+                                { width: '50px', targets: 7 },
+                                { width: '50px', targets: 8 },
+                                { width: '70px', targets: 9 },
+
+                            ],
+                            responsive: true,
+                        });
+                    });
+                    // Detail Button
+                    $(document).on("click", ".detail-btn", function () {
+                        $("#detailNama").text($(this).data("nama"));
+                        $("#detailKeluhan").text($(this).data("keluhan"));
+                        $("#detailPsikolog").text($(this).data("psikolog"));
+                        $("#detailTanggal").text($(this).data("tanggal"));
+                        $("#detailJam").text($(this).data("jam"));
+                        $("#detailSesi").text($(this).data("status_sesi"));
+                        $("#detailPembayaran").text($(this).data("status_pembayaran"));
+                        $("#detailModal").modal("show");
+                    });
+
+                    //tambah sesi
+
+                    // Delete Button
+                    $(document).on("click", ".delete-btn", function () {
+                        var id = $(this).data("id");
+
+                        Swal.fire({
+                            title: "Apakah kamu yakin?",
+                            text: "Data ini akan dihapus permanen!",
+                            icon: "warning",
+                            showCancelButton: true,
+                            confirmButtonColor: "#d33",
+                            cancelButtonColor: "#3085d6",
+                            confirmButtonText: "Ya, hapus!"
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = "delete-session.php?id=" + id;
+                            }
+                        });
+                    });
+                </script>
             </div>
+        </div>
 
         </div>
     </main>

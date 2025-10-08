@@ -1,27 +1,42 @@
 <?php
-include "../connection/konek.php"; // <-- ini include koneksi database
+session_start();
+header('Content-Type: application/json');
+echo json_encode($_SESSION);
+exit;
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+include "../../connection/konek.php";
 
-$start = isset($_GET['start']) ? intval($_GET['start']) : 0;
-$length = isset($_GET['length']) ? intval($_GET['length']) : 10;
-$search = isset($_GET['search']['value']) ? $_GET['search']['value'] : '';
 
-// Hitung total data
-$totalDataQuery = mysqli_query($koneksi, "SELECT COUNT(*) AS total FROM sesi JOIN data_akun ON sesi.psikolog = data_akun.id_akun");
+if (!isset($_SESSION["user"]["id"])) {
+    echo json_encode(["error" => "Session expired"]);
+    exit;
+};
+
+$id_psikolog = $_SESSION["user"]["id"];
+
+$start = isset($_GET["start"]) ? intval($_GET["start"]) :0;
+$length = isset($_GET["length"]) ? intval($_GET["length"]) : 10;
+$search = isset($_GET["search"]["value"]) ? $_GET["search"]["value"] :'';
+
+$totalDataQuery = mysqli_query($koneksi, "SELECT COUNT(*) AS total FROM sesi WHERE psikolog = '$id_psikolog'");
 $totalData = mysqli_fetch_assoc($totalDataQuery)['total'];
 
-// Query dasar
-$query = "SELECT sesi.*, data_akun.nama_lengkap AS nama_psikolog FROM sesi JOIN data_akun ON sesi.psikolog = data_akun.id_akun WHERE status_sesi='Belum'";
+$query = "
+SELECT sesi.*, data_akun.nama_lengkap AS nama_psikolog 
+FROM sesi 
+JOIN data_akun ON sesi.psikolog =data_akun.id_akun
+WHERE sesi.psikolog = '$id_psikolog'";
 
-// Jika ada pencarian
 if (!empty($search)) {
-    $query .= " WHERE sesi.nama_client LIKE '%$search%' 
+    $query .= " AND (sesi.nama_client LIKE '%$search%' 
                 OR sesi.keluhan LIKE '%$search%' 
                 OR sesi.status_sesi LIKE '%$search%'
                 OR data_akun.nama_lengkap LIKE '%$search%'
-                OR sesi.status_pembayaran LIKE '%$search%'";
+                OR sesi.status_pembayaran LIKE '%$search%'
+                )";
 }
 
-// Hitung total setelah filter
 $totalFilteredQuery = mysqli_query($koneksi, $query);
 $totalFiltered = mysqli_num_rows($totalFilteredQuery);
 
@@ -50,12 +65,6 @@ while ($row = mysqli_fetch_assoc($dataQuery)) {
         data-status_sesi="' . $row["status_sesi"] . '"
         data-status_pembayaran="' . $row["status_pembayaran"] . '">
         <i class="bi bi-eye"></i>
-    </button>
-    <a href="edit-session.php?id=' . $row["id_sesi"] . '" class="btn btn-sm btn-warning px-2 py-1">
-        <i class="bi bi-pencil-square"></i>
-    </a>
-    <button class="btn btn-sm btn-danger delete-btn px-2 py-1" data-id="' . $row["id_sesi"] . '">
-        <i class="bi bi-trash"></i>
     </button>
 </div>';
 

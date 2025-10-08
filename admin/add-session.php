@@ -75,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <div class="col-md-9 col-lg-10">
         <h3 class="mb-3">Tambah Sesi Klien</h3>
 
-        <form method="POST">
+        <form method="POST" id="addSessionForm">
           <!-- Data Klien -->
           <div class="row mb-3">
             <div class="col-md-6">
@@ -97,15 +97,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               <input type="date" name="ttl" class="form-control">
             </div>
           </div>
-          <hr>
 
           <!-- Sesi Pertama -->
-          <div id="sessions">
+          <div id="sessions" class="mb-3 border rounded p-3 position-relative">
             <div class="mb-3">
               <label class="form-label">Keluhan</label>
               <textarea name="keluhan" class="form-control"></textarea>
             </div>
-
             <div class="row mb-3">
               <div class="col">
                 <label class="form-label">Psikolog</label>
@@ -151,36 +149,52 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <script>
         function addSession() {
           const sesiInput = `
-          <hr>
+          <div class="session-item mb-3 border rounded p-3 position-relative">
             <div class="mb-3">
               <label class="form-label">Keluhan</label>
               <textarea name="keluhan" class="form-control"></textarea>
             </div>
-        <div class="row mb-3">
-            <div class="col-md-4">
+
+            <button type="button" class="btn-close position-absolute top-0 end-0 m-2" aria-label="Close"
+            onclick="removeSession(this)"></button>
+
+            <div class="row mb-3">
+              <div class="col">
                 <label class="form-label">Psikolog</label>
                 <select name="psikolog[]" class="form-select" required>
-                    <?= $dropdown_psikolog ?>
+                  <?= $dropdown_psikolog ?>
                 </select>
-            </div>
-            <div class="col-md-3">
+              </div>
+              <div class="col">
                 <label class="form-label">Tanggal Sesi</label>
                 <input type="date" name="tanggal_sesi[]" class="form-control" required>
-            </div>
-            <div class="col-md-3">
+              </div>
+              <div class="col">
                 <label class="form-label">Jam Sesi</label>
                 <input type="time" name="jam_sesi[]" class="form-control" required>
-            </div>
-            <div class="col-md-2">
-                <label class="form-label">Status</label>
+              </div>
+              <div class="col">
+                <label class="form-label">Status Pembayaran</label>
                 <select name="status_pembayaran[]" class="form-select">
-                    <option value="Belum Lunas">Belum Lunas</option>
-                    <option value="Lunas">Lunas</option>
+                  <option value="Belum Lunas">Belum Lunas</option>
+                  <option value="Lunas">Lunas</option>
                 </select>
+              </div>
+              <div class="col">
+                <label class="form-label">Status Sesi</label>
+                <select name="status_sesi[]" class="form-select">
+                  <option value="Belum Lunas">Belum</option>
+                  <option value="Lunas">Sudah Selesai</option>
+                </select>
+              </div>
             </div>
-        </div>
+            </div>
     `;
           document.getElementById('sessions').insertAdjacentHTML('beforeend', sesiInput);
+        }
+
+        function removeSession(button) {
+          button.closest('.session-item').remove();
         }
       </script>
     </div>
